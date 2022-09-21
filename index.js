@@ -19,3 +19,41 @@ mysqlConnection.connect((err)=>{
     else
         console.log('DB connection not successful \n Error: ' + JSON.stringify(err, undefined, 2));
 });
+
+app.listen(3080, ()=>console.log('Express server running at port 3080'));
+
+app.get("/employees", (req, res) => {
+    mysqlConnection.query("SELECT * FROM employee", (err, rows, fields) => {
+        if(!err){
+            console.log(rows);
+            res.send(rows);
+        }else{
+            console.log(err);
+        }
+    });
+});
+
+
+// Access just one employee
+app.get("/employees/:id", (req, res) => {
+    mysqlConnection.query("SELECT * FROM employee WHERE EmpID = ?", [req.params.id],(err, rows, fields) => {
+        if(!err){
+            console.log(rows);
+            res.send(rows);
+        }else{
+            console.log(err);
+        }
+    });
+});
+
+// Delete just one employee
+app.delete("/employees/:id", (req, res) => {
+    mysqlConnection.query("SELECT * FROM employee WHERE EmpID = ?", [req.params.id],(err, rows, fields) => {
+        if(!err){
+            console.log(rows);
+            res.send(rows);
+        }else{
+            console.log(err);
+        }
+    });
+});
